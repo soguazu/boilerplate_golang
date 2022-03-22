@@ -2,6 +2,7 @@ package common
 
 import (
 	uuid "github.com/satori/go.uuid"
+
 	"github.com/soguazu/core_business/internals/core/domain"
 	"github.com/soguazu/core_business/pkg/utils"
 )
@@ -52,13 +53,6 @@ type UpdateCompanyRequest struct {
 	Website       *string `json:"website,omitempty"`
 	FundingSource *string `json:"funding_source,omitempty"`
 	NoOfEmployee  *int32  `json:"no_of_employee,omitempty"`
-}
-
-// GetAllCompanyResponse DTO get all companies
-type GetAllCompanyResponse struct {
-	Success bool             `json:"success"`
-	Message string           `json:"message"`
-	Data    utils.Pagination `json:"data"`
 }
 
 // CreateCompanyResponse DTO get all companies

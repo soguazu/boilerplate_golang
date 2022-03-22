@@ -3,6 +3,7 @@ package server
 import (
 	"github.com/gin-gonic/gin"
 	log "github.com/sirupsen/logrus"
+
 	"github.com/soguazu/core_business/internals/core/services"
 	"github.com/soguazu/core_business/internals/handlers"
 	"github.com/soguazu/core_business/internals/repositories"
@@ -25,7 +26,8 @@ func Injection() {
 		ginRoutes         = NewGinRouter(gin.Default())
 		companyRepository = repositories.NewCompanyRepository(DBConnection)
 		companyService    = services.NewCompanyService(companyRepository, logging)
-		companyHandler    = handlers.NewCompanyHandler(companyService, logging)
+		companyHandler    = handlers.NewCompanyHandler(companyService, logging, "Company")
+	
 	)
 
 	v1 := ginRoutes.GROUP("v1")
@@ -35,6 +37,7 @@ func Injection() {
 	company.POST("/", companyHandler.CreateCompany)
 	company.DELETE("/:id", companyHandler.DeleteCompany)
 	company.PATCH("/:id", companyHandler.UpdateCompany)
+	
 
 	err := ginRoutes.SERVE()
 

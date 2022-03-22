@@ -2,7 +2,9 @@ package services
 
 import (
 	"errors"
+
 	log "github.com/sirupsen/logrus"
+
 	"github.com/soguazu/core_business/internals/common"
 	"github.com/soguazu/core_business/internals/core/domain"
 	"github.com/soguazu/core_business/internals/core/ports"
@@ -48,23 +50,25 @@ func (c *companyService) GetAllCompany(pagination *utils.Pagination) (*utils.Pag
 	return companies, nil
 }
 
-func (c *companyService) CreateCompany(company *domain.Company) (*domain.Company, error) {
+func (c *companyService) CreateCompany(company *domain.Company) error {
 	var entity []domain.Company
 	entity, err := c.CompanyRepository.GetBy(domain.Company{Owner: company.Owner, Name: company.Name})
 	if err != nil {
-		return nil, err
+		return err
 	}
 
 	if len(entity) > 0 {
-		return nil, errors.New("already exist")
+		return errors.New("already exist")
 	}
 
-	newCompany, err := c.CompanyRepository.Persist(company)
+	err = c.CompanyRepository.Persist(company)
+
 	if err != nil {
 		c.logger.Error(err)
-		return nil, err
+		return err
 	}
-	return newCompany, nil
+
+	return nil
 }
 
 func (c *companyService) DeleteCompany(id string) error {
@@ -76,7 +80,7 @@ func (c *companyService) DeleteCompany(id string) error {
 	return nil
 }
 
-func (c *companyService) UpdateCompany(params common.GetCompanyByIDRequest, body common.UpdateCompanyRequest) (*domain.Company, error) {
+func (c *companyService) UpdateCompany(params common.GetByIDRequest, body common.UpdateCompanyRequest) (*domain.Company, error) {
 	company, err := c.CompanyRepository.GetByID(params.ID)
 	if err != nil {
 		c.logger.Error(err)
@@ -102,10 +106,11 @@ func (c *companyService) UpdateCompany(params common.GetCompanyByIDRequest, body
 		company.FundingSource = *body.FundingSource
 	}
 
-	response, err := c.CompanyRepository.Persist(company)
+	err = c.CompanyRepository.Persist(company)
+
 	if err != nil {
 		c.logger.Error(err)
 		return nil, err
 	}
-	return response, nil
+	return company, nil
 }

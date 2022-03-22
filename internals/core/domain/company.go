@@ -13,4 +13,5 @@ type Company struct {
 	Type          string    `json:"type" gorm:"index"`
 	FundingSource string    `json:"funding_source"`
 	NoOfEmployee  int32     `json:"no_of_employee" gorm:"not null;default:0"`
+	Address       []Address `json:"address,omitempty" gorm:"foreignKey:Company;references:ID"`
 }

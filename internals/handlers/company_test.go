@@ -4,21 +4,23 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"github.com/gin-gonic/gin"
-	log "github.com/sirupsen/logrus"
-	"github.com/soguazu/core_business/internals/common"
-	"github.com/soguazu/core_business/internals/core/services"
-	"github.com/soguazu/core_business/internals/repositories"
-	datastore "github.com/soguazu/core_business/pkg/database"
-	"github.com/soguazu/core_business/pkg/logger"
-	"github.com/soguazu/core_business/pkg/utils"
-	"github.com/stretchr/testify/require"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
 	"path/filepath"
 	"strings"
 	"testing"
+
+	"github.com/gin-gonic/gin"
+	log "github.com/sirupsen/logrus"
+	"github.com/stretchr/testify/require"
+
+	"github.com/soguazu/core_business/internals/common"
+	"github.com/soguazu/core_business/internals/core/services"
+	"github.com/soguazu/core_business/internals/repositories"
+	datastore "github.com/soguazu/core_business/pkg/database"
+	"github.com/soguazu/core_business/pkg/logger"
+	"github.com/soguazu/core_business/pkg/utils"
 )
 
 var (
@@ -27,7 +29,7 @@ var (
 	logging           = logger.NewLogger(log.New()).MakeLogger(filepath.Join("..", "..", "logs", "info"), true)
 	companyRepository = repositories.NewCompanyRepository(DBConnection)
 	companyService    = services.NewCompanyService(companyRepository, logging)
-	handler           = NewCompanyHandler(companyService, logging)
+	handler           = NewCompanyHandler(companyService, logging, "Company")
 )
 
 func SetupRouter() *gin.Engine {

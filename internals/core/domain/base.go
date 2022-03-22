@@ -1,14 +1,15 @@
 package domain
 
 import (
+	"time"
+
 	"github.com/satori/go.uuid"
 	"gorm.io/gorm"
-	"time"
 )
 
 // Base entity that is reused in all entity
 type Base struct {
-	ID        uuid.UUID `gorm:"type:uuid"`
+	ID        uuid.UUID `gorm:"type:uuid;primaryKey;autoIncrement:false"`
 	CreatedAt time.Time
 	UpdatedAt time.Time
 	DeletedAt *time.Time `sql:"index"`
