@@ -1,4 +1,4 @@
-module github.com/soguazu/boilerplate
+module github.com/soguazu/core_business
 
 go 1.17
 
